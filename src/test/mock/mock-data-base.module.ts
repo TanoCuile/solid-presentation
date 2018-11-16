@@ -57,6 +57,7 @@ export class MockService implements TimeSlotServiceInterface {
       // inject: [] // You can inject anything you want
     },
     { provide: 'TimeConfigurationServiceInterface', useClass: MockService },
+    { useClass: MockService, provide: 'UserServiceInterface' },
   ],
   exports: [
     'TimeSlotDatabase',
@@ -64,6 +65,7 @@ export class MockService implements TimeSlotServiceInterface {
     'TimeConfigurationServiceInterface',
     'TimeConfigurationDatabase',
     'TimeConfigurationServiceInterface',
+    'UserServiceInterface',
   ],
 })
 export class MockDataBaseModule {}
