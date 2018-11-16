@@ -17,6 +17,6 @@ import { TimeConfiguration } from './classes/time-configuration';
       // inject: [] // You can inject anything you want
     },
   ],
-  exports: ['TimeSlotDatabase'],
+  exports: ['TimeSlotDatabase', 'TimeConfigurationDatabase'],
 })
 export class DataBaseModule {}
