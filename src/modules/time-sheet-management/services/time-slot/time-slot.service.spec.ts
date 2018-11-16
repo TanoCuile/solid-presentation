@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {} from 'jasmine';
 import { TimeSheetModule } from '../../../time-sheet/time-sheet.module';
+import { MockDataBaseModule } from '../../../../test/mock/mock-data-base.module';
 import { TimeSlotService } from './time-slot.service';
 
 describe('FreeTimeService', () => {
@@ -8,7 +9,7 @@ describe('FreeTimeService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TimeSheetModule],
+      imports: [MockDataBaseModule, TimeSheetModule],
       providers: [TimeSlotService],
     }).compile();
     service = module.get<TimeSlotService>(TimeSlotService);
