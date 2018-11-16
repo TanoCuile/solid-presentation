@@ -3,13 +3,17 @@ import { TimeSlotServiceInterface } from '../../../time-sheet-management/interfa
 import { FreeTimeServiceInterface } from '../../../time-sheet/interfaces/free-time-service.interface';
 import { TimeSlotInterface } from '../../../time-sheet/interfaces/time-slot.interface';
 import { DataBaseServiceInterface } from '../../../../interfaces/data-base-service.interface';
+import { TimeConfigurationInterface } from '../../../time-sheet/interfaces/time-configuration.interface';
+import { TimeConfigurationServiceInterface } from '../../../time-sheet-management/interfaces/time-configuration-service.interface';
 
 @Injectable()
 export class ApiTimeSheetService {
   constructor(
     @Inject('TimeSlotDatabase') protected slotDatabase: DataBaseServiceInterface<TimeSlotInterface>,
     @Inject('TimeSlotServiceInterface') protected timeSlotService: TimeSlotServiceInterface,
-    @Inject('FreeTimeServiceInterface') protected freeTimeConfigurationService: FreeTimeServiceInterface,
+    @Inject('FreeTimeServiceInterface') protected freeTimeService: FreeTimeServiceInterface,
+    @Inject('TimeConfigurationDatabase') protected configDatabase: DataBaseServiceInterface<TimeConfigurationInterface>,
+    @Inject('TimeConfigurationServiceInterface') protected timeConfigurationService: TimeConfigurationServiceInterface,
   ) {}
 
   async getUserFreeTimeForDay({
@@ -21,10 +25,11 @@ export class ApiTimeSheetService {
     day: number;
     requiredSlotSize: number;
   }): Promise<TimeSlotInterface[]> {
+    const config = await this.configDatabase.find({});
     const criteria = Object.assign(this.timeSlotService.getAllTimeSlotsPerDayCreteria(day));
     const slots = await this.slotDatabase.find(criteria);
 
-    return this.freeTimeConfigurationService.getFreeTime(slots, requiredSlotSize);
+    return this.freeTimeService.getFreeTime(slots, config[0], requiredSlotSize);
   }
 
   async createSlot(slot: TimeSlotInterface) {

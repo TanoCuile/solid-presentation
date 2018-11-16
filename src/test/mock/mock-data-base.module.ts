@@ -5,6 +5,7 @@ import { InstanceInterface } from '../../interfaces/instance.interface';
 import { TimeSlotServiceInterface } from '../../modules/time-sheet-management/interfaces/time-slot-service.interface';
 import { DataBaseServiceInterface } from '../../interfaces/data-base-service.interface';
 import { CreteriaType } from '../../types/creteria.type';
+import { TimeConfigurationInterface } from '../../modules/time-sheet/interfaces/time-configuration.interface';
 
 export class TextDataBaseService<T extends InstanceInterface> implements DataBaseServiceInterface<T> {
   constructor(protected name: string) {}
@@ -50,10 +51,18 @@ export class MockService implements TimeSlotServiceInterface {
     },
     { provide: 'TimeSlotServiceInterface', useClass: MockService },
     { provide: 'TimeConfigurationServiceInterface', useClass: MockService },
+    {
+      provide: 'TimeConfigurationDatabase',
+      useFactory: () => new TextDataBaseService<TimeConfigurationInterface>('config_test'),
+      // inject: [] // You can inject anything you want
+    },
+    { provide: 'TimeConfigurationServiceInterface', useClass: MockService },
   ],
   exports: [
     'TimeSlotDatabase',
     'TimeSlotServiceInterface',
+    'TimeConfigurationServiceInterface',
+    'TimeConfigurationDatabase',
     'TimeConfigurationServiceInterface',
   ],
 })
