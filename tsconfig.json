@@ -1,0 +1,29 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
+    "allowJs": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": [
+      "node_modules/@types",
+      "./src/types"
+    ]
+  },
+  "exclude": [
+    "dist",
+    "doc",
+    "node_modules",
+    "!node_modules/@types"
+  ],
+  "lib": ["dom", "es7"],
+  "include": ["src/**/*"]
+}
